@@ -20,18 +20,18 @@ double juliandate(int j, int m, int a, int hh, int mm, int ss)
 
 //Constructor (long et lat en °)
 Ducktime::Ducktime(double longitudec,double latitudec)
-    : longitude(longitudec), latitude(latitudec) //J'ai passé 1h à débugué cette ligne parce que j'avais déclaré la latitude avant la longitude dans Ducktime.h ........ niksamere
+    : longitude(longitudec), latitude(latitudec)
 {
-    std::cout << "Construction Ducktime\n";
-    std::cout << std::format("\tLieu d'observation : long {}° / lat {}°\n",longitude,latitude);
-    std::cout << '\t';
+    // std::cout << "Construction Ducktime\n";
+    // std::cout << std::format("\tLieu d'observation : long {}° / lat {}°\n",longitude,latitude);
+    // std::cout << '\t';
     reset_time(); //Reset du temps pour mettre à l'heure de l'ordi lors de l'initialisation
 }
 
 //Destructor
 Ducktime::~Ducktime()
 {
-    std::cout << "Destructing Ducktime\n";
+    // std::cout << "Destructing Ducktime\n";
 }
 
 //Date en Jour Julien
@@ -51,7 +51,7 @@ double Ducktime::get_Tj() const
 {return Tj;}
 
 //On rajoute à JJ le pas de temps dt(qui est en seconde) en Jour
-void Ducktime::update_time(double dt)
+void Ducktime::add_time(double dt)
 {
     JJ = JJ+(dt/86400.0);
     Tu = (JJ-2451545)/36525.0;
@@ -70,7 +70,7 @@ void Ducktime::reset_time()
     int hh = utc_time->tm_hour;
     int mm = utc_time->tm_min;
     int ss = utc_time->tm_sec;
-    std::cout << std::format("Reset Ducktime {}/{}/{} {}:{}:{}\n",j,m,a,hh,mm,ss);
+    // std::cout << std::format("Reset Ducktime {}/{}/{} {}:{}:{}\n",j,m,a,hh,mm,ss);
 
     JJ = juliandate(j,m,a,hh,mm,ss);
     Tu = (JJ-2451545)/36525.0;

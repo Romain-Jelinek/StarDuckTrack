@@ -48,7 +48,8 @@ public: //Toutes les méthodes ici --> On évite les "setter" pour pas pouvoir m
     void update_eqbias(const Ducktime& ducktime); //Prise en compte du mouvement propre de l'astre (CorAD, CorDEC)
     void update_eqdate(const Ducktime& ducktime); //Prise en compte de la précession des équinoxes selon le modèle IAU1976
     void update_coordlocales_vrai(const Ducktime& ducktime); //Transformation des coordonnées équatoriales à la date vers coordonnées locales avec Hs et la latitude pris depuis l'objet Ducktime
-    void update_coordlocales_app(const Ducktime& ducktime,const int pression, const int temperature); //Coordonnées locales apparentes (prise en compte réfraction atmos)
+    void update_coordlocales_app(const Ducktime& ducktime,const int pression = 1013, const int temperature = 15); //Coordonnées locales apparentes (prise en compte réfraction atmos)
+    void compute_current_local_app(Ducktime& ducktime, const int pression, const int temperature); // All in one update of apparant local coordonates from scratch
 
     std::string getstr_ADJ2000_HMS() const;
     std::string getstr_eqbias_rad() const;
@@ -57,6 +58,7 @@ public: //Toutes les méthodes ici --> On évite les "setter" pour pas pouvoir m
     std::string getstr_eqdate_deg() const;
     std::string getstr_coordlocales_vrai() const;
     std::string getstr_coordlocales_app() const;
+    std::string getID() const {return ID;};
 
     double get_Az() const;
     double get_happ() const;

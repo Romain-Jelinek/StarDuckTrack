@@ -24,7 +24,7 @@ public :
     double get_Ta() const;
     double get_Tj() const;
 
-    void update_time(double dt);    //Rajoute dt secondes à JJ,Tu,Ta,Tj
+    void add_time(double dt);    //Rajoute dt secondes à JJ,Tu,Ta,Tj
     void reset_time();              //Réinitialise Ducktime à l'heure de l'ordi
 
     //Heure sidérale locale -> Angle horaire du lieu d'observation par rapport au point vernale de la date JJ

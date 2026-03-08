@@ -31,15 +31,15 @@ Canastre::Canastre(int ADHc, int ADMc, double ADSc, double CorADc,
             SignDEC(SignDECc), DECD(DECDc), DECM(DECMc), DECS(DECSc),
             CorDEC(CorDECc), VMAG(VMAGc),ID(IDc) 
 {
-    char strSignDEC = '-';
-    if (SignDECc) {strSignDEC = '+';}
-    std::cout << std::format("Constructing {} :\n\tAD : {}H {}m {}s\n\tDEC: {}{}° {}' {}\"\n\n",ID,ADH,ADM,ADS,strSignDEC,DECD,DECM,DECS);
+    // char strSignDEC = '-';
+    // if (SignDECc) {strSignDEC = '+';}
+    // std::cout << std::format("Constructing {} :\n\tAD : {}H {}m {}s\n\tDEC: {}{}° {}' {}\"\n\n",ID,ADH,ADM,ADS,strSignDEC,DECD,DECM,DECS);
 }
 
 //Destructor
 Canastre::~Canastre()
 {
-    std::cout << std::format("Destructing {}\n",ID);
+    // std::cout << std::format("Destructing {}\n",ID);
 }
 
 // ________________________________________________________________________
@@ -52,6 +52,7 @@ void Canastre::update_eqbias(const Ducktime& ducktime) //Ta issue de Ducktime.ge
     AD_bias = arcsec2rad(HMS2arcsec(ADH,ADM,ADS) + CorAD*Ta);
     DEC_bias = arcsec2rad(DMS2arcsec(SignDEC,DECD,DECM,DECS) + CorDEC*Ta);
 }
+
 
 //On prend en compte la précession des équinoxes depuis l'epoch J2000.0 avec update_eqdate()
 void Canastre::update_eqdate(const Ducktime& ducktime)
@@ -90,6 +91,7 @@ void Canastre::update_eqdate(const Ducktime& ducktime)
     AD_date = fmod((atan2(up, down) + 2*M_PI), 2*M_PI); // modulo 2π
 }
 
+
 //Calcul des coordonnées locales Az/h_vrai (sans atmosphère)
 void Canastre::update_coordlocales_vrai(const Ducktime& ducktime)
 {
@@ -113,6 +115,7 @@ void Canastre::update_coordlocales_vrai(const Ducktime& ducktime)
     Az = rad2deg(fmod(atan2(cDec * sin(Hl), -clat * sDec + slat * cDec * cHl) + M_PI, 2*M_PI));
 }
 
+
 //Calcul des coordonnées locales Az/h_app (réfraction atmosphérique)
 void Canastre::update_coordlocales_app(const Ducktime& ducktime,const int pression, const int temperature)
 {
@@ -132,6 +135,15 @@ void Canastre::update_coordlocales_app(const Ducktime& ducktime,const int pressi
 
     //Hauteur apparante de l'astre
     h_app = h_vrai + R;
+}
+
+
+// I mean, just read the function name...
+void Canastre::compute_current_local_app(Ducktime& ducktime, const int pression, const int temperature){
+    ducktime.reset_time();
+    update_eqdate(ducktime);
+    update_coordlocales_vrai(ducktime);
+    update_coordlocales_app(ducktime, pression, temperature);
 }
 
 

@@ -24,8 +24,8 @@ int main(){
     std::cout << std::format(".get_Ta() : {}\n",Testtime.get_Ta());
     std::cout << std::format(".get_Tj() : {}\n",Testtime.get_Tj());
 
-    std::cout << "\nUn jour plus tard... (.update_time(86400))\n";
-    Testtime.update_time(86400);
+    std::cout << "\nUn jour plus tard... (.add_time(86400))\n";
+    Testtime.add_time(86400);
     std::cout << std::format(".get_JJ() : {}\n",Testtime.get_JJ());
     std::cout << std::format(".get_Tu() : {}\n",Testtime.get_Tu());
     std::cout << std::format(".get_Ta() : {}\n",Testtime.get_Ta());

@@ -43,7 +43,7 @@ int main()
             1 - Calcul des coordonnées locales vrai (sans atmosphère) dans un premier temps avec update_coordlocales_vrai() inclus dans update_coordlocales_app()
             2 - Ajustement de la hauteur en prenant en compte la réfraction atmosphèrique
         */
-        letemps.update_time(dt); //On update JJ pour la boucle suivante en rajoutant le pas dt
+        letemps.add_time(dt); //On update JJ pour la boucle suivante en rajoutant le pas dt
         t += dt;
         
         std::cout << std::format("\rAz {}° / h_app {}° ",Vega.get_Az(),Vega.get_happ()) << std::flush;
