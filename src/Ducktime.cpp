@@ -1,10 +1,10 @@
 #include "Ducktime.h"
-#include <ctime>
+#include <chrono>
 #include <iostream>
 #include <format>
 #include <cmath>
 
-double juliandate(int j, int m, int a, int hh, int mm, int ss)
+double juliandate(int j, int m, int a, int hh, int mm, double ss)
 {
     if (m==1 || m==2)
     {
@@ -62,17 +62,26 @@ void Ducktime::add_time(double dt)
 //Reset de tous les attributs Ducktime à l'heure de l'ordi
 void Ducktime::reset_time()
 {
-    time_t current_time = time(nullptr);
-    tm* utc_time = gmtime(&current_time);
-    int a = 1900 + utc_time->tm_year;
-    int m = 1 + utc_time->tm_mon;
-    int j = utc_time->tm_mday;
-    int hh = utc_time->tm_hour;
-    int mm = utc_time->tm_min;
-    int ss = utc_time->tm_sec;
-    // std::cout << std::format("Reset Ducktime {}/{}/{} {}:{}:{}\n",j,m,a,hh,mm,ss);
+    // Get current system time
+    const std::chrono::time_point sys_now = std::chrono::system_clock::now();
 
-    JJ = juliandate(j,m,a,hh,mm,ss);
+    // year, month, day
+    const std::chrono::time_point day_start = std::chrono::floor<std::chrono::days>(sys_now);
+    const std::chrono::year_month_day ymd {day_start};
+    int y = static_cast<int>(ymd.year());
+    unsigned int m = static_cast<unsigned int>(ymd.month());
+    unsigned d = static_cast<unsigned int>(ymd.day());
+
+    // hour, minute, second (to the millisecond)
+    std::chrono::duration time_since_day_start = std::chrono::floor<std::chrono::milliseconds>(sys_now - day_start);
+    std::chrono::hh_mm_ss hms {time_since_day_start};
+    int hh = hms.hours().count();
+    int mm = hms.minutes().count();
+    double ss = hms.seconds().count() + hms.subseconds().count() / 1000.0;
+    
+    // std::cout << std::format("Reset Ducktime {}/{}/{} {}:{}:{}\n",d,m,y,hh,mm,ss);
+
+    JJ = juliandate(d,m,y,hh,mm,ss);
     Tu = (JJ-2451545)/36525.0;
     Ta = (JJ-2451545)/365.25;
     Tj = (JJ-2451545);
