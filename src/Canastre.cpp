@@ -141,8 +141,8 @@ void Canastre::update_coordlocales_app(const Ducktime& ducktime,const int pressi
 // I mean, just read the function name...
 void Canastre::compute_current_local_app(Ducktime& ducktime, const int pression, const int temperature){
     ducktime.reset_time();
+    ducktime.update_Hs();
     update_eqdate(ducktime);
-    update_coordlocales_vrai(ducktime);
     update_coordlocales_app(ducktime, pression, temperature);
 }
 
